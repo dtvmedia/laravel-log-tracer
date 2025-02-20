@@ -32,7 +32,7 @@ class LaravelLogTracer
             ->replace('{{class_basename}}', $classBasename ?? 'unknown')
             ->replace('{{method}}', $method ?? 'unknown')
             ->replace('{{file}}', $trace['file'] ?? 'unknown')
-            ->replace('{{line}}', $trace['line'] ?? 0)
+            ->replace('{{line}}', $trace['line'] ?? '0')
             ->replace('{{message}}', $record->message)
             ->value();
 
