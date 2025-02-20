@@ -22,12 +22,12 @@ it('can log the source', function (string $message, string $expected, Closure $c
 })->with([
     [
         'Test log message 1',
-        '[ExampleTest::{closure}]',
+        '[ExampleTest::{closure:26}]',
         fn () => Log::debug('Test log message 1'),
     ],
     [
         'Test log message 2',
-        '[ExampleTest::{closure}]',
+        '[ExampleTest::{closure:31}]',
         fn () => logger('Test log message 2'),
     ],
     [
