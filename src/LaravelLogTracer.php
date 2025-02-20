@@ -2,7 +2,6 @@
 
 namespace Dtvmedia\LaravelLogTracer;
 
-use Illuminate\Support\Stringable;
 use Monolog\LogRecord;
 
 class LaravelLogTracer
@@ -12,7 +11,7 @@ class LaravelLogTracer
         $backtrace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 10);
 
         foreach ($backtrace as $key => $trace) {
-            if (!isset($trace['file'], $trace['line'])) {
+            if (! isset($trace['file'], $trace['line'])) {
                 continue;
             }
 
@@ -25,7 +24,7 @@ class LaravelLogTracer
                 ->remove('.php')
                 ->value();
             $method = str($backtrace[$key + 1]['function'])
-                ->whenContains('{closure', fn () => str('{closure:' . ($trace['line'] ?? '0') . '}'))
+                ->whenContains('{closure', fn () => str('{closure:'.($trace['line'] ?? '0').'}'))
                 ->value();
 
             break;
