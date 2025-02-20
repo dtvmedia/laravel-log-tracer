@@ -23,21 +23,21 @@ it('can log the source', function (string $message, string $expected, Closure $c
     [
         'Test log message 1',
         '[ExampleTest::{closure}]',
-        fn() => Log::debug('Test log message 1')
+        fn () => Log::debug('Test log message 1'),
     ],
     [
         'Test log message 2',
         '[ExampleTest::{closure}]',
-        fn() => logger('Test log message 2')
+        fn () => logger('Test log message 2'),
     ],
     [
         'Test log message 3',
         '[DummyClass::instance]',
-        fn() => (new DummyClass())->instance()
+        fn () => (new DummyClass)->instance(),
     ],
     [
         'Test log message 4',
         '[DummyClass::static]',
-        fn() => DummyClass::static()
+        fn () => DummyClass::static(),
     ],
 ]);
