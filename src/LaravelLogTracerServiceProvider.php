@@ -3,19 +3,22 @@
 namespace Dtvmedia\LaravelLogTracer;
 
 use Illuminate\Log\LogManager;
-use Spatie\LaravelPackageTools\Package;
-use Spatie\LaravelPackageTools\PackageServiceProvider;
+use Illuminate\Support\ServiceProvider;
 
-class LaravelLogTracerServiceProvider extends PackageServiceProvider
+class LaravelLogTracerServiceProvider extends ServiceProvider
 {
-    public function configurePackage(Package $package): void
+    public function boot(): void
     {
-        $package
-            ->name('laravel-log-tracer')
-            ->hasConfigFile();
+        $this->bootConfigs();
+        $this->bootLogExtension();
     }
 
-    public function boot(): void
+    public function register(): void
+    {
+        $this->registerConfigs();
+    }
+
+    protected function bootLogExtension(): void
     {
         $this->app->extend('log', function (LogManager $logger) {
             $monolog = $logger->getLogger();
@@ -26,7 +29,27 @@ class LaravelLogTracerServiceProvider extends PackageServiceProvider
 
             return $logger;
         });
+    }
 
-        parent::boot();
+    protected function bootConfigs(): void
+    {
+        if ($this->app->runningInConsole()) {
+            $vendorConfig = __DIR__ . '/../config/log-tracer.php';
+
+            $this->publishes(
+                paths: [
+                    $vendorConfig => config_path('log-tracer.php'),
+                ],
+                groups: 'log-tracer-config'
+            );
+        }
+    }
+
+    protected function registerConfigs(): void
+    {
+        $this->mergeConfigFrom(
+            __DIR__ . '/../config/log-tracer.php',
+            'log-tracer'
+        );
     }
 }
