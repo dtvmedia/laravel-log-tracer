@@ -34,7 +34,7 @@ class LaravelLogTracerServiceProvider extends ServiceProvider
     protected function bootConfigs(): void
     {
         if ($this->app->runningInConsole()) {
-            $vendorConfig = __DIR__ . '/../config/log-tracer.php';
+            $vendorConfig = __DIR__.'/../config/log-tracer.php';
 
             $this->publishes(
                 paths: [
@@ -48,7 +48,7 @@ class LaravelLogTracerServiceProvider extends ServiceProvider
     protected function registerConfigs(): void
     {
         $this->mergeConfigFrom(
-            __DIR__ . '/../config/log-tracer.php',
+            __DIR__.'/../config/log-tracer.php',
             'log-tracer'
         );
     }
