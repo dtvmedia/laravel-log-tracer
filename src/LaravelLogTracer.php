@@ -25,7 +25,7 @@ class LaravelLogTracer
                 ->remove('.php')
                 ->value();
             $method = str($backtrace[$key + 1]['function'])
-                ->whenContains('{closure', fn () => str('{closure:' . ($trace['line'] ?? '0') . '}'))
+                ->whenContains('{closure', fn () => str("{closure:{$trace['line']}}"))
                 ->value();
 
             break;
