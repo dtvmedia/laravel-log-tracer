@@ -1,6 +1,6 @@
 <?php
 
-namespace Dtvmedia\LaravelLogTracer\Tests;
+namespace Dtvmedia\LaravelLogTracer\Tests\Fixture;
 
 use Illuminate\Support\Facades\Log;
 
