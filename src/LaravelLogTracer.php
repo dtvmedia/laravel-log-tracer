@@ -4,12 +4,13 @@ namespace Dtvmedia\LaravelLogTracer;
 
 use Illuminate\Support\Str;
 use Monolog\LogRecord;
+use Throwable;
 
 class LaravelLogTracer
 {
     public function __invoke(LogRecord $record): LogRecord
     {
-        if (config('log-tracer.ignore_exceptions') && $this->isExceptionLog($record->message)) {
+        if (config('log-tracer.ignore_exceptions') && $this->isExceptionLog($record)) {
             return $record;
         }
 
@@ -46,8 +47,16 @@ class LaravelLogTracer
         return $record->with(message: $newMessage);
     }
 
-    protected function isExceptionLog(string $logMessage): bool
+    protected function isExceptionLog(LogRecord $record): bool
     {
+        if (
+            isset($record->context['exception'])
+            && $record->context['exception'] instanceof Throwable
+        ) {
+            return true;
+        }
+
+        $logMessage = $record->message;
         $matchCount = 0;
         $matchCount += (int) preg_match('/\b(Exception|Error|Throwable)\b/i', $logMessage);
         $matchCount += (int) preg_match('/\.php:\d+/i', $logMessage);
