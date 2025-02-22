@@ -15,4 +15,14 @@ class DummyClass
     {
         Log::debug('Test log message 4');
     }
+
+    public static function closure1(): void
+    {
+        (fn () => Log::debug('Test log message 1'))();
+    }
+
+    public static function closure2(): void
+    {
+        (fn () => logger()->debug('Test log message 2'))();
+    }
 }
