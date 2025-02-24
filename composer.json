@@ -1,6 +1,6 @@
 {
     "name": "dtvmedia/laravel-log-tracer",
-    "description": "This is my package laravel-log-tracer",
+    "description": "A simple package for enhancing Laravel logging by adding the source from where the log was triggered, making it easier to trace the origin of log entries.",
     "keywords": [
         "dtvmedia",
         "laravel",
