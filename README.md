@@ -5,7 +5,9 @@
 [![GitHub Code Style Action Status](https://img.shields.io/github/actions/workflow/status/dtvmedia/laravel-log-tracer/fix-php-code-style-issues.yml?branch=main&label=code%20style&style=flat-square)](https://github.com/dtvmedia/laravel-log-tracer/actions?query=workflow%3A"Fix+PHP+code+style+issues"+branch%3Amain)
 [![Total Downloads](https://img.shields.io/packagist/dt/dtvmedia/laravel-log-tracer.svg?style=flat-square)](https://packagist.org/packages/dtvmedia/laravel-log-tracer)
 
-A simple package for enhancing Laravel logging by adding the source from where the log was triggered, making it easier to trace the origin of log entries.
+🔍 A simple package for enhancing Laravel logging by adding the source from where the log was triggered, making it easier to trace the origin of log entries.
+
+![laravel-log-tracer-demo.log](assets/header.png)
 
 ## Features:
 
@@ -30,6 +32,8 @@ php artisan vendor:publish --tag="laravel-log-tracer-config"
 This is the contents of the published config file:
 
 ```php
+<?php
+
 return [
 
     /*
@@ -45,8 +49,21 @@ return [
     | - {{message}}
     |
     */
-    
+
     'format' => '[{{class_basename}}::{{method}}] {{message}}',
+
+    /*
+    |--------------------------------------------------------------------------
+    | Ignore Exceptions
+    |--------------------------------------------------------------------------
+    |
+    | This option determines whether detected exceptions should be ignored
+    | for further processing. When set to true, any log message identified as
+    | an exception will not include the additional log trace.
+    |
+    */
+
+    'ignore_exceptions' => true,
 
 ];
 ```
