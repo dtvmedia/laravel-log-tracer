@@ -20,10 +20,7 @@ class LaravelLogTracer
     }
 
     /**
-     * @param LogRecord                        $record
-     * @param array<int, array<string, mixed>> $backtrace
-     *
-     * @return LogRecord
+     * @param  array<int, array<string, mixed>>  $backtrace
      */
     protected function addSourceToLogRecord(LogRecord $record, array $backtrace): LogRecord
     {
