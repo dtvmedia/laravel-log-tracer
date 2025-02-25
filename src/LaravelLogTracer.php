@@ -10,11 +10,26 @@ class LaravelLogTracer
 {
     public function __invoke(LogRecord $record): LogRecord
     {
+        try {
+            $backtrace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 10);
+
+            return $this->addSourceToLogRecord($record, $backtrace);
+        } catch (Throwable) {
+            return $record;
+        }
+    }
+
+    /**
+     * @param LogRecord                        $record
+     * @param array<int, array<string, mixed>> $backtrace
+     *
+     * @return LogRecord
+     */
+    protected function addSourceToLogRecord(LogRecord $record, array $backtrace): LogRecord
+    {
         if (config('log-tracer.ignore_exceptions') && $this->isExceptionLog($record)) {
             return $record;
         }
-
-        $backtrace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 10);
 
         foreach ($backtrace as $key => $trace) {
             if (! isset($trace['file'], $trace['line'])) {
@@ -49,6 +64,7 @@ class LaravelLogTracer
 
     protected function isExceptionLog(LogRecord $record): bool
     {
+        // check for real exceptions
         if (
             isset($record->context['exception'])
             && $record->context['exception'] instanceof Throwable
@@ -56,6 +72,7 @@ class LaravelLogTracer
             return true;
         }
 
+        // check for exceptions in log message
         $logMessage = $record->message;
         $matchCount = 0;
         $matchCount += (int) preg_match('/\b(Exception|Error|Throwable)\b/i', $logMessage);
